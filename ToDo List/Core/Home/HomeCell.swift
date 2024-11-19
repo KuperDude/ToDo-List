@@ -12,6 +12,12 @@ struct HomeCell: View {
     var text = "Составить список необходимых продуктов для ужина. Не забыть проверить, что уже есть в холожильнике"
     var date = "02/10/24"
     
+    init(toDoTask: ToDoTask) {
+        self.title = toDoTask.todo
+        self.text = ""
+        self.date = "02/10/24"
+    }
+    
     @State private var isOn = false
     
     var body: some View {
@@ -40,5 +46,5 @@ struct HomeCell: View {
 }
 
 #Preview {
-    HomeCell()
+    HomeCell(toDoTask: .mock)
 }
