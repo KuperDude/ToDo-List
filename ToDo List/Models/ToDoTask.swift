@@ -16,6 +16,10 @@ struct ToDoTask: Codable, Identifiable {
     static var mock: ToDoTask {
         return ToDoTask(id: 123, todo: "something", completed: false, userId: 123)
     }
+    
+    func changeCompleted() -> ToDoTask {
+        return ToDoTask(id: id, todo: todo, completed: !completed, userId: userId)
+    }
 }
 
 struct ToDoList: Codable {

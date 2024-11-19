@@ -9,30 +9,29 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State var vm = HomeViewModel()
-    
-    @State private var searchText = ""
+    @StateObject var vm = HomeViewModel()
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollView(.vertical) {
-                    ForEach(vm.toDoTasks) { toDoTask in
+                    ForEach(vm.filteredToDoTasks) { toDoTask in
                         HomeCell(toDoTask: toDoTask)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
-                            .contextMenu {
-                                contextMenu
+                            .onTapGesture {
+                                vm.changeCompleted(at: toDoTask.id)
                             }
                         Divider()
                     }
+                    .padding(.bottom, 100)
                 }
                 bottomBar
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .navigationTitle("Задачи")
         }
-        .searchable(text: $searchText)
+        .searchable(text: $vm.searchText)
         .task {
             await vm.getData()
         }
@@ -44,20 +43,6 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    private var contextMenu: some View {
-        Group {
-            NavigationLink(destination: DetailView()) {
-                Label("Редактировать", systemImage: "pencil")
-            }
-            Button(action: {}) {
-                Label("Поделиться", systemImage: "cloud")
-            }
-            Button(role: .destructive, action: {}) {
-                Label("Удалить", systemImage: "trash")
-                    .foregroundStyle(.red)
-            }
-        }
-    }
     private var bottomBar: some View {
         ZStack(alignment: .top) {
             Rectangle()
@@ -69,7 +54,7 @@ extension HomeView {
                     .padding()
                     .opacity(0)
                 Spacer()
-                Text("7 задач")
+                Text("\(vm.toDoTasks.count) задач")
                     .frame(height: 30)
             
             
