@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     
@@ -16,11 +17,13 @@ struct HomeView: View {
             ZStack(alignment: .bottom) {
                 ScrollView(.vertical) {
                     ForEach(vm.filteredToDoTasks) { toDoTask in
-                        HomeCell(toDoTask: toDoTask)
+                        HomeCell(toDoTask: toDoTask, onDelete: {
+                            vm.delete(toDoTask: toDoTask)
+                        })
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                             .onTapGesture {
-                                vm.changeCompleted(at: toDoTask.id)
+                                vm.changeCompleted(toDoTask: toDoTask)
                             }
                         Divider()
                     }
@@ -37,6 +40,7 @@ struct HomeView: View {
         }
     }
 }
+
 
 #Preview {
     HomeView()

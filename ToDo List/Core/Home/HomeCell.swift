@@ -8,57 +8,60 @@
 import SwiftUI
 
 struct HomeCell: View {
-    var title = "Почитать книгу"
-    var text = "Составить список необходимых продуктов для ужина. Не забыть проверить, что уже есть в холожильнике"
-    var date = "02/10/24"
-    var completed = false
+    var toDoTask: ToDoTask
     
-    init(toDoTask: ToDoTask) {
-        self.title = toDoTask.todo
-        self.text = ""
-        self.date = "02/10/24"
-        self.completed = toDoTask.completed
+    var onDelete: ()->Void
+    
+    init(toDoTask: ToDoTask, onDelete: @escaping ()->Void) {
+        self.toDoTask = toDoTask
+        self.onDelete = onDelete
     }
     
     var body: some View {
         HStack(alignment: .top) {
-            Image(systemName: completed ? "circle" : "checkmark.circle")
+            Image(systemName: toDoTask.completed ? "circle" : "checkmark.circle")
                 .resizable()
                 .frame(width: 30, height: 30)
-                .foregroundColor(completed ? .secondary : .accent)
+                .foregroundColor(toDoTask.completed ? .secondary : .accent)
             VStack(alignment: .leading, spacing: 8) {
-                Text(title)
-                    .strikethrough(!completed, color: .secondary)
+                Text(toDoTask.todo)
+                    .strikethrough(!toDoTask.completed, color: .secondary)
                     .font(.title)
                     .frame(height: 30)
                     
-                Text(text)
+                Text(toDoTask.text ?? "")
                     .lineLimit(2)
-                Text(date)
+                Text(toDoTask.creationDate?.toFormattedString() ?? "")
                     .foregroundStyle(.secondary)
             }
-            .foregroundStyle(completed ? .primary : .secondary)
+            .foregroundStyle(toDoTask.completed ? .primary : .secondary)
         }
+        .overlay(content: {
+            Rectangle()
+                .opacity(0.01)
+        })
         .contextMenu {
             contextMenu
         }
+       
     }
 }
 
 #Preview {
-    HomeCell(toDoTask: .mock)
+    HomeCell(toDoTask: .mock, onDelete: {})
 }
 
 extension HomeCell {
     private var contextMenu: some View {
         Group {
-            NavigationLink(destination: DetailView(toDoTask: ToDoTask(id: 123, todo: title, completed: true, userId: 123))) {
+            NavigationLink(destination: DetailView(toDoTask: toDoTask)) {
                 Label("Редактировать", systemImage: "pencil")
             }
-            Button(action: {}) {
+            
+            ShareLink(item: "\(toDoTask.todo)\n\(toDoTask.text ?? "")") {
                 Label("Поделиться", systemImage: "cloud")
             }
-            Button(role: .destructive, action: {}) {
+            Button(role: .destructive, action: onDelete) {
                 Label("Удалить", systemImage: "trash")
                     .foregroundStyle(.red)
             }

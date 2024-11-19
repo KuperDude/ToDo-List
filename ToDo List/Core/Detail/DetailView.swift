@@ -9,30 +9,33 @@ import SwiftUI
 
 struct DetailView: View {
     
-    @State var title = "Почитать"
-    @State var text = "Составить список необходимых продуктов для ужина. Не забыть проверить, что уже есть в холожильнике"
-    var date = "02/10/24"
+    @StateObject var vm: DetailViewModel
+    
+    var toDoTask: ToDoTask
     
     init(toDoTask: ToDoTask) {
-        _title = State(initialValue: toDoTask.todo)
-        _text = State(initialValue: "")
-        self.date = "02/10/24"
+        self.toDoTask = toDoTask
+        self._vm = StateObject(wrappedValue: DetailViewModel(title: toDoTask.todo, text: toDoTask.text ?? ""))
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            TextField("Enter title", text: $title)
+            TextField("Введите заголовок", text: $vm.title)
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            Text(date)
+            Text(toDoTask.creationDate?.toFormattedString() ?? "")
                 .foregroundStyle(.secondary)
             
-            TextEditor(text: $text)
+            TextEditor(text: $vm.text)
             
         }
         .padding(.horizontal)
-        //.navigationBarHidden(true)
+        .onDisappear {
+            if vm.title != "" {
+                vm.update(toDoTask: toDoTask)
+            }
+        }
     }
 }
 
