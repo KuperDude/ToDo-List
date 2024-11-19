@@ -35,6 +35,11 @@ struct ToDoTask: Codable, Identifiable {
         return ToDoTask(id: 123, todo: "something", completed: false)
     }
     
+    static var new: ToDoTask {
+        let id = (ToDoDataService.instance.savedEntities.last?.taskID ?? 0) + 1
+        return ToDoTask(id: Int(id), todo: "", completed: false, creationDate: Date.now)
+    }
+    
     func changeCompleted() -> ToDoTask {
         return ToDoTask(id: id, todo: todo, completed: !completed, text: text, creationDate: creationDate)
     }

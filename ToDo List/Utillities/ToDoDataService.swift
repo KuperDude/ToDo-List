@@ -51,6 +51,9 @@ class ToDoDataService {
     
     private func getTasks() {
         let request = NSFetchRequest<ToDoTaskEntity>(entityName: entityName)
+        let sortDescriptor = NSSortDescriptor(key: "taskID", ascending: false)
+        
+        request.sortDescriptors = [sortDescriptor]
         do {
             savedEntities = try container.viewContext.fetch(request)
         } catch let error {

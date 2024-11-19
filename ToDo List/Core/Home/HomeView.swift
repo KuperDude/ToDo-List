@@ -63,11 +63,17 @@ extension HomeView {
             
             
                 Spacer()
-                Image(systemName: "square.and.pencil")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .padding()
-                    .foregroundStyle(.accent)
+                NavigationLink(destination: DetailView(toDoTask: ToDoTask.new)) {
+                    Image(systemName: "square.and.pencil")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .padding()
+                        .foregroundStyle(.accent)
+                        .overlay {
+                            Rectangle()
+                                .opacity(0.01)
+                        }
+                }
             }
         }
     }
