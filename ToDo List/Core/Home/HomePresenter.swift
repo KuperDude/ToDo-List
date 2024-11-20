@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import SwiftfulRouting
 import SwiftUI
 
 class HomePresenter: ObservableObject {

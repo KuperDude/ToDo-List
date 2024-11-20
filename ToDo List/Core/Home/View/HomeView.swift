@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import SwiftfulRouting
 
 struct HomeView: View {
     

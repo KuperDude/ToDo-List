@@ -6,15 +6,12 @@
 //
 
 import SwiftUI
-import SwiftfulRouting
 
 @main
 struct ToDo_ListApp: App {
     var body: some Scene {
         WindowGroup {
-            //RouterView { _ in
-                HomeBuilder.build()
-            //}
+            HomeBuilder.build()
         }
     }
 }
