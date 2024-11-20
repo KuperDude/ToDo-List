@@ -36,7 +36,7 @@ struct ToDoTask: Codable, Identifiable {
     }
     
     static var new: ToDoTask {
-        let id = (ToDoDataService.instance.savedEntities.last?.taskID ?? 0) + 1
+        let id = (ToDoDataService.instance.savedEntities.first?.taskID ?? 0) + 1
         return ToDoTask(id: Int(id), todo: "", completed: false, creationDate: Date.now)
     }
     

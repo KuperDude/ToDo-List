@@ -7,23 +7,26 @@
 
 import SwiftUI
 import CoreData
+import SwiftfulRouting
 
 struct HomeView: View {
     
-    @StateObject var vm = HomeViewModel()
+    @ObservedObject var presenter: HomePresenter
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollView(.vertical) {
-                    ForEach(vm.filteredToDoTasks) { toDoTask in
-                        HomeCell(toDoTask: toDoTask, onDelete: {
-                            vm.delete(toDoTask: toDoTask)
+                    ForEach(presenter.filteredToDoTasks) { toDoTask in
+                        HomeCell(toDoTask: toDoTask, 
+                        onDelete: {
+                            presenter.delete(toDoTask: toDoTask)
+                        }, onEdit: {
+                            presenter.doToTask(toDoTask)
                         })
-                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                             .onTapGesture {
-                                vm.changeCompleted(toDoTask: toDoTask)
+                                presenter.changeCompleted(toDoTask: toDoTask)
                             }
                         Divider()
                     }
@@ -34,16 +37,16 @@ struct HomeView: View {
             .ignoresSafeArea(.all, edges: .bottom)
             .navigationTitle("Задачи")
         }
-        .searchable(text: $vm.searchText)
+        .searchable(text: $presenter.searchText)
         .task {
-            await vm.getData()
+            await presenter.loadData()
         }
     }
 }
 
 
 #Preview {
-    HomeView()
+    HomeBuilder.build()
 }
 
 extension HomeView {
@@ -58,22 +61,25 @@ extension HomeView {
                     .padding()
                     .opacity(0)
                 Spacer()
-                Text("\(vm.toDoTasks.count) задач")
+                Text("\(presenter.toDoTasks.count) задач")
                     .frame(height: 30)
             
             
                 Spacer()
-                NavigationLink(destination: DetailView(toDoTask: ToDoTask.new)) {
+                
+                NavigationLink {
+                    presenter.addNewTask()
+                } label: {
                     Image(systemName: "square.and.pencil")
                         .resizable()
                         .frame(width: 30, height: 30)
                         .padding()
                         .foregroundStyle(.accent)
-                        .overlay {
-                            Rectangle()
+                        .overlay { Rectangle()
                                 .opacity(0.01)
                         }
                 }
+
             }
         }
     }

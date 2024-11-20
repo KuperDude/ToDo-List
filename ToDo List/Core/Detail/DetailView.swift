@@ -8,37 +8,26 @@
 import SwiftUI
 
 struct DetailView: View {
-    
-    @StateObject var vm: DetailViewModel
-    
-    var toDoTask: ToDoTask
-    
-    init(toDoTask: ToDoTask) {
-        self.toDoTask = toDoTask
-        self._vm = StateObject(wrappedValue: DetailViewModel(title: toDoTask.todo, text: toDoTask.text ?? ""))
-    }
-    
+    @ObservedObject var presenter: DetailPresenter
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            TextField("Введите заголовок", text: $vm.title)
+            TextField("Введите заголовок", text: $presenter.title)
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            Text(toDoTask.creationDate?.toFormattedString() ?? "")
+            Text(presenter.creationDate)
                 .foregroundStyle(.secondary)
             
-            TextEditor(text: $vm.text)
-            
+            TextEditor(text: $presenter.text)
         }
         .padding(.horizontal)
         .onDisappear {
-            if vm.title != "" {
-                vm.update(toDoTask: toDoTask)
-            }
+            presenter.updateTaskOnDisappear()
         }
     }
 }
 
 #Preview {
-    DetailView(toDoTask: .mock)
+    DetailBuilder.build(with: ToDoTask.mock)
 }
