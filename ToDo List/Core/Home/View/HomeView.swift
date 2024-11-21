@@ -10,6 +10,7 @@ import CoreData
 
 struct HomeView: View {
     
+    @Namespace var namespace
     @ObservedObject var presenter: HomePresenter
     
     var body: some View {
@@ -19,14 +20,18 @@ struct HomeView: View {
                     ForEach(presenter.filteredToDoTasks) { toDoTask in
                         HomeCell(toDoTask: toDoTask, 
                         onDelete: {
-                            presenter.delete(toDoTask: toDoTask)
+                            withAnimation(.spring) {
+                                presenter.delete(toDoTask: toDoTask)
+                            }
                         }, onEdit: {
-                            presenter.doToTask(toDoTask)
+                            presenter.goToTask(toDoTask)
                         })
                             .padding(.horizontal)
                             .onTapGesture {
                                 presenter.changeCompleted(toDoTask: toDoTask)
                             }
+                            .transition(.move(edge: .leading))
+                            .matchedGeometryEffect(id: toDoTask.id, in: namespace)
                         Divider()
                     }
                     .padding(.bottom, 100)

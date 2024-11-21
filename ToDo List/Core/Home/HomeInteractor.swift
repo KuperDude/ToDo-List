@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 protocol HomeInteractorInput {
     var toDoTasks: [ToDoTask] { get }
@@ -36,13 +37,16 @@ class HomeInteractor: HomeInteractorInput {
     }
 
     func loadData() async {
-        if dataService.savedEntities.isEmpty {
+        if await UIApplication.isFirstLaunch() {
             guard toDoTasks.isEmpty else { return }
             toDoTasks = await apiManager.getToDoTasks() ?? []
+            if toDoTasks.isEmpty {
+                await UIApplication.setFirstLaunch()
+            }
             for task in toDoTasks {
                 dataService.updateTasks(toDoTask: task, status: .update)
             }
-        } else {
+        } else {            
             toDoTasks = dataService.savedEntities.map { ToDoTask(entity: $0) }
         }
     }

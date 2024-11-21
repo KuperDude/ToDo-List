@@ -19,7 +19,15 @@ struct DetailView: View {
             Text(presenter.creationDate)
                 .foregroundStyle(.secondary)
             
-            TextEditor(text: $presenter.text)
+            ZStack {
+                if presenter.text.isEmpty {
+                    TextEditor(text: .constant("Введите описание"))
+                            .foregroundColor(.gray)
+                            .disabled(true)
+                }
+                TextEditor(text: $presenter.text)
+                    .opacity(presenter.text.isEmpty ? 0.25 : 1)
+            }
         }
         .padding(.horizontal)
         .onDisappear {

@@ -56,13 +56,16 @@ class HomePresenter: ObservableObject {
     }
 
     func delete(toDoTask: ToDoTask) {
+        if let index = filteredToDoTasks.firstIndex(where: { $0.id == toDoTask.id }) {
+            filteredToDoTasks.remove(at: index)
+        }
         interactor.deleteTask(toDoTask: toDoTask)
     }
 
     func addNewTask() -> AnyView {
         router.navigateToAddTask()
     }
-    func doToTask(_ task: ToDoTask) -> AnyView {
+    func goToTask(_ task: ToDoTask) -> AnyView {
         router.navigateToTaskDetail(for: task)
     }
 }

@@ -25,9 +25,16 @@ struct HomeCell: View {
                 .resizable()
                 .frame(width: 30, height: 30)
                 .foregroundColor(toDoTask.completed ? .accent : .secondary)
+                .animation(.easeInOut, value: toDoTask.completed)
             VStack(alignment: .leading, spacing: 8) {
                 Text(toDoTask.todo)
-                    .strikethrough(toDoTask.completed, color: .secondary)
+                    .overlay(
+                        Rectangle()
+                            .frame(width: toDoTask.completed ? nil : 0, height: 2)
+                            .foregroundColor(.secondary)
+                            .animation(.easeInOut, value: toDoTask.completed),
+                        alignment: .leading
+                    )
                     .font(.title)
                     .frame(height: 30)
                     

@@ -64,7 +64,7 @@ class ToDoDataService {
     private func add(toDoTask: ToDoTask) {        
         let entity = ToDoTaskEntity(context: container.viewContext)
         entity.taskID = Int16(toDoTask.id)
-        entity.completion = false
+        entity.completion = toDoTask.completed
         entity.creationDate = Date.now
         entity.title = toDoTask.todo
         entity.text = toDoTask.text
