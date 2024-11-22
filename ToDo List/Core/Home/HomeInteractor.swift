@@ -19,10 +19,10 @@ protocol HomeInteractorInput {
 }
 
 class HomeInteractor: HomeInteractorInput {
-    private let apiManager: APIManager
+    private let apiManager: APIManagerProtocol
     private let dataService: ToDoDataService
 
-    private(set) var toDoTasks: [ToDoTask] = []
+    var toDoTasks: [ToDoTask] = []
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,7 +30,7 @@ class HomeInteractor: HomeInteractorInput {
     
     var toDoTasksPublisher: AnyPublisher<[ToDoTask], Never> { toDoTasksSubject.eraseToAnyPublisher() }
 
-    init(apiManager: APIManager = .instance, dataService: ToDoDataService = .instance) {
+    init(apiManager: APIManagerProtocol = APIManager.instance, dataService: ToDoDataService = .instance) {
         self.apiManager = apiManager
         self.dataService = dataService
         setupSubscribers()
@@ -68,6 +68,7 @@ class HomeInteractor: HomeInteractorInput {
 
     func filterTasks(by searchText: String) -> [ToDoTask] {
         guard !searchText.isEmpty else { return toDoTasks }
+        
         return toDoTasks.filter { $0.todo.localizedCaseInsensitiveContains(searchText) }
     }
 

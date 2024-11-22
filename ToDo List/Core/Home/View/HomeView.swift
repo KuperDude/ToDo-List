@@ -36,7 +36,7 @@ struct HomeView: View {
                     }
                     .padding(.bottom, 100)
                 }
-                bottomBar
+                tabBar
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .navigationTitle("Задачи")
@@ -54,10 +54,10 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    private var bottomBar: some View {
+    private var tabBar: some View {
         ZStack(alignment: .top) {
             Rectangle()
-                .foregroundStyle(Color(red: 39/255, green: 39/255, blue: 41/255))
+                .foregroundStyle(Color("tabBar"))
                 .frame(height: 100)
             HStack {
                 Rectangle()
@@ -80,7 +80,7 @@ extension HomeView {
                         .padding()
                         .foregroundStyle(.accent)
                         .overlay { Rectangle()
-                                .opacity(0.01)
+                                .opacity(0.001)
                         }
                 }
 

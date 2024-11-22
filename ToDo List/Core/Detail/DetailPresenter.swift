@@ -31,7 +31,6 @@ class DetailPresenter: DetailPresenterInput, ObservableObject {
     }
 
     func updateTaskOnDisappear() {
-        guard !title.isEmpty else { return }
         interactor.updateTask(task, with: title, and: text)
     }
 }

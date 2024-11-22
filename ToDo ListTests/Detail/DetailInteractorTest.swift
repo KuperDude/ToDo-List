@@ -8,30 +8,56 @@
 import XCTest
 @testable import ToDo_List
 
-class DetailInteractorTests: XCTestCase {
-    func testUpdateTaskCallsExpectedMethod() {
-        // Arrange
-        let mockTask = ToDoTask.mock
-        let mockRepository = MockTaskRepository()
-        let interactor = DetailInteractor()
+class DetailInteractorTest: XCTestCase {
+    var interactor: DetailInteractor!
+    var mockDataService: MockToDoDataService!
 
-        // Act
+    override func setUp() {
+        super.setUp()
+        mockDataService = MockToDoDataService()
+        interactor = DetailInteractor(dataService: mockDataService)
+    }
+
+    override func tearDown() {
+        interactor = nil
+        mockDataService = nil
+        super.tearDown()
+    }
+    
+    func test_DetailInteractor_updateTask_shuldUpdate() {
+        // Given
+        let mockTask = ToDoTask.mock
+
+        // When
         interactor.updateTask(mockTask, with: "New Title", and: "New Text")
 
-        // Assert
-        XCTAssertTrue(mockRepository.updateCalled, "updateTask should call the repository update method.")
-        XCTAssertEqual(mockRepository.updatedTask?.todo, "New Title")
-        XCTAssertEqual(mockRepository.updatedTask?.text, "New Text")
+        // Then
+        XCTAssertTrue(mockDataService.updateCalled)
+        XCTAssertEqual(mockDataService.updatedTask?.todo, "New Title")
+        XCTAssertEqual(mockDataService.updatedTask?.text, "New Text")
+    }
+    
+    func test_DetailInteractor_updateTask_shuldNotUpdate() {
+        // Given
+        let mockTask = ToDoTask.mock
+
+        // When
+        interactor.updateTask(mockTask, with: "", and: "New Text")
+
+        // Then
+        XCTAssertFalse(mockDataService.updateCalled)
+        XCTAssertNil(mockDataService.updatedTask?.todo)
+        XCTAssertNil(mockDataService.updatedTask?.text)
     }
 }
 
-// Mock Repository
-class MockTaskRepository: TaskRepositoryProtocol {
+class MockToDoDataService: ToDoDataService {
     var updateCalled = false
     var updatedTask: ToDoTask?
-
-    func updateTask(_ task: ToDoTask) {
+    
+    override func updateTasks(toDoTask: ToDo_List.ToDoTask, status: ToDo_List.ToDoDataService.Status) {
         updateCalled = true
-        updatedTask = task
+        updatedTask = toDoTask
     }
+
 }
