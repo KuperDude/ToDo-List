@@ -7,7 +7,11 @@
 
 import Foundation
 
-actor APIManager {
+protocol APIManagerProtocol {
+    func getToDoTasks() async -> [ToDoTask]?
+}
+
+actor APIManager: APIManagerProtocol {
     
     static var instance = APIManager()
     

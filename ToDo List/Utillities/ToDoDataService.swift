@@ -8,11 +8,15 @@
 import Foundation
 import CoreData
 
-class ToDoDataService {
+protocol ToDoDataServiceProtocol {
+    func updateTasks(toDoTask: ToDoTask, status: ToDoDataService.Status)
+}
+
+class ToDoDataService: ToDoDataServiceProtocol {
     
     static var instance = ToDoDataService()
     
-    private let container: NSPersistentContainer
+    let container: NSPersistentContainer
     private let containerName: String = "ToDo_List"
     private let entityName = "ToDoTaskEntity"
     

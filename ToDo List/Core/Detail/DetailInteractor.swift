@@ -12,9 +12,14 @@ protocol DetailInteractorInput {
 }
 
 class DetailInteractor: DetailInteractorInput {
-    private let dataService = ToDoDataService.instance
+    let dataService: ToDoDataServiceProtocol
+    
+    init(dataService: ToDoDataServiceProtocol = ToDoDataService.instance) {
+        self.dataService = dataService
+    }
 
-    func updateTask(_ task: ToDoTask, with title: String, and text: String) {        
+    func updateTask(_ task: ToDoTask, with title: String, and text: String) {   
+        guard !title.isEmpty else { return }
         let updatedTask = task.changeTitleAndText(title: title, text: text)
         dataService.updateTasks(toDoTask: updatedTask, status: .update)
     }
