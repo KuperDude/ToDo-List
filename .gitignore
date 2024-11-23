@@ -43,26 +43,6 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 
-# iOS specific
-#
-*.xcodeproj
-xcuserdata/
-*.xcuserdatad/
-*.scmproj
-*.occ
-*.pp
-*.xcnewnode
-Pods/
-Pods/*
-
-# Swift Package Manager
-#
-.build/
-.swiftpm/xcode/xcuserdata/
-*.xcodeproj/project.xcworkspace/xcuserdata/
-Packages/
-Package.resolved
-
 # CocoaPods
 #
 Pods/
