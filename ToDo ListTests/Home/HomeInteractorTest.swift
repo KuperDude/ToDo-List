@@ -23,6 +23,7 @@ class HomeInteractorTest: XCTestCase {
 
     func test_HomeInteractor_LoadData_FirstLaunch_FetchesFromAPI() async {
         // Given
+        clearCoreData(container: mockToDoDataService.container)
         await UIApplication.setFirstLaunch()
         mockAPIManager.mockToDoTasks = [ToDoTask(id: 1, todo: "Test", completed: false, text: "Test Text")]
         // When
@@ -58,6 +59,27 @@ class HomeInteractorTest: XCTestCase {
         
         // Then
         XCTAssertEqual(!task.completed, mockToDoDataService.updatedTask?.completed)
+    }
+}
+
+extension HomeInteractorTest {
+    func clearCoreData(container: NSPersistentContainer) {
+        let context = container.viewContext
+        
+        guard let entities = Array(container.managedObjectModel.entitiesByName.keys) as? [String] else {
+            return
+        }
+        
+        for entity in entities {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try container.persistentStoreCoordinator.execute(deleteRequest, with: context)
+            } catch {
+                print("Ошибка при очистке данных из сущности \(entity): \(error)")
+            }
+        }
     }
 }
 
