@@ -9,6 +9,10 @@ on:
 jobs:
   test:
     runs-on: macos-latest
+    permissions:
+        contents: write
+        pull-requests: write
+        repository-projects: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
