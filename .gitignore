@@ -46,7 +46,6 @@ DerivedData/
 # iOS specific
 #
 *.xcodeproj
-project.xcworkspace
 xcuserdata/
 *.xcuserdatad/
 *.scmproj
@@ -138,7 +137,6 @@ xcuserdata/
 .build/
 .swiftpm/
 Packages/
-Package.resolved
 
 # Ignore Carthage build
 Carthage/Build/
