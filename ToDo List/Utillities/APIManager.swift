@@ -19,7 +19,7 @@ actor APIManager: APIManagerProtocol {
         let urlString = "https://dummyjson.com/todos"
         guard let url = URL(string: urlString) else { return nil }
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url) 
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
