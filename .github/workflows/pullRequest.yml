@@ -31,8 +31,9 @@ jobs:
 
       - name: Delete and Recreate Package.resolved
         run: |
-          rm -f ToDo List.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-          xcodebuild -resolvePackageDependencies -workspace ToDo List.xcodeproj/project.xcworkspace -scheme ToDo List -derivedDataPath Build/
+          rm -f "ToDo List.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+          xcodebuild -resolvePackageDependencies -workspace "ToDo List.xcodeproj/project.xcworkspace" -scheme "ToDo List" -derivedDataPath Build/
+
 
 
       - name: Swift Packages Cache
