@@ -53,7 +53,6 @@ struct HomeCell: View {
         .contextMenu {
             contextMenu
         }
-       
     }
 }
 

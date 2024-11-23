@@ -64,10 +64,11 @@ extension HomeView {
                     .frame(width: 30, height: 30)
                     .padding()
                     .opacity(0)
+                
                 Spacer()
+                
                 Text("\(presenter.toDoTasks.count) задач")
                     .frame(height: 30)
-            
             
                 Spacer()
                 
