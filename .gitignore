@@ -53,6 +53,7 @@ fastlane/test_output
 # Temporary and log files
 *.tmp
 *.log
+*.lock
 
 # macOS-specific
 .DS_Store
