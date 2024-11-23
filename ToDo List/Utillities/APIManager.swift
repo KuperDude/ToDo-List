@@ -16,7 +16,7 @@ actor APIManager: APIManagerProtocol {
     static var instance = APIManager()
     
     func getToDoTasks() async -> [ToDoTask]? {
-        let urlString = "https://dummyjson.com/todos" 
+        let urlString = "https://dummyjson.com/todos"
         guard let url = URL(string: urlString) else { return nil }
         
         let request = URLRequest(url: url)
