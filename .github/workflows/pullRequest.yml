@@ -36,7 +36,7 @@ jobs:
           path: |
             Build/SourcePackages
             Build/Build/Products
-          key: ${{ runner.os }}-deps-v1-${{ hashFiles('FoodTaskerMobile.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          key: ${{ runner.os }}-deps-v1-${{ hashFiles('ToDo List.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
           restore-keys: ${{ runner.os }}-deps-v1-
 
       - name: Clear Cache
