@@ -68,7 +68,6 @@ class HomeInteractor: HomeInteractorInput {
 
     func filterTasks(by searchText: String) -> [ToDoTask] {
         guard !searchText.isEmpty else { return toDoTasks }
-        
         return toDoTasks.filter { $0.todo.localizedCaseInsensitiveContains(searchText) }
     }
 

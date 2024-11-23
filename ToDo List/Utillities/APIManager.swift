@@ -32,7 +32,6 @@ actor APIManager: APIManagerProtocol {
             
             return toDoList.todos
             
-            
         } catch {
             print("Ошибка при работе с сетью: \(error)")
             return nil
