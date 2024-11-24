@@ -84,7 +84,6 @@ extension HomeView {
                                 .opacity(0.001)
                         }
                 }
-
             }
         }
     }
